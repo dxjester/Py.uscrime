@@ -11,7 +11,6 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-import csv
 #----------------------------------- START -----------------------------------#
 #-------------------- PHASE 1: Import & Clean the Dataset --------------------#
 #-----------------------------------------------------------------------------#
@@ -36,6 +35,18 @@ crime_df['row']
 col_list = crime_df.columns.tolist()
 col_list
 
+# percentile list 
+perc =[.20, .40, .60, .80] 
+  
+# list of dtypes to include 
+include =['object', 'float', 'int'] 
+
+# calling describe method 
+crime_desc = crime_df.describe(percentiles = perc, include = include) 
+crime_desc.to_csv("Column Summary Description")
+crime_desc
+
+# test a sample boxplot 
 plt.boxplot(crime_df['row'])
 plt.title('row: Box and Whisker')
 plt.tight_layout()
@@ -49,5 +60,3 @@ for col in col_list:
     plt.show()
     plt.savefig('Charts/Box & Whisker Plots/' + filename)
     
-
-crime_df['row']
