@@ -3,40 +3,41 @@
 FILENAME: crime_analysis.py
 PROJECT: US Crime Project
 DATE CREATED: 6-May-19
-DATE UPDATED: 6-May-19
+DATE UPDATED: 11-May-19
 VERSION: 1.0
 """
 
-
 import pandas as pd
 import matplotlib
+import matplotlib.pyplot as plt
 import numpy as np
 import csv
 #----------------------------------- START -----------------------------------#
 #-------------------- PHASE 1: Import & Clean the Dataset --------------------#
 #-----------------------------------------------------------------------------#
 
+# read in the file 
+url = '/Users/patrickbenitez/Desktop/Georgia Tech/Codebook/Python Projects/US Crime Project/US Crime Analysis/uscrime.txt'
+crime_df = pd.read_csv(url, sep='\t', lineterminator='\r', header=0)
+crime_df.head(10)
+crime_df.dtypes # ensure attributes possess the correct data type
 
-infile = r'/Users/patrickbenitez/Desktop/Georgia Tech/Codebook/Python Projects/US Crime Project/US Crime Analysis/uscrime.txt'
-outfile = r'/Users/patrickbenitez/Desktop/Georgia Tech/Codebook/Python Projects/US Crime Project/US Crime Analysis/uscrime.csv'
+# retrieve administrative information of the dataframe 
+df_size = crime_df.size
+df_size
+crime_df.shape
+crime_df.ndim
 
-import_df = pd.read_csv(infile, sep='\t', lineterminator='\r')
-import_df.head(10)
+# add a new 
+crime_df['row'] = range(len(crime_df))
+crime_df['row']
 
-# validate data types for all attributes
-import_df.dtypes
+# create a list of all the column headers
+col_list = crime_df.columns.tolist()
+col_list
 
-# create a copy of the clean dataframe import
-master_df = import_df
-
-# convert columns to a list 
-column_list = list(master_df)
-column_list
-
-# create a list of dictionaries storing five number summaries for each of the attributes
-five_num_sum = []
-for col in column_list:
-    temp = {'Column Name': col, 'Min': 'Null', '25% Quartile': 'Null', 'Mean': 'Null', '75% Quartile': 'Null', 'Max': 'Null' }
-    five_num_sum.append(temp)
-
-five_num_sum
+plt.boxplot(crime_df['M'])
+plt.title('M: Box and Whisker')
+plt.tight_layout()
+plt.show()
+plt.savefig('Box & Whisker: M.png')
