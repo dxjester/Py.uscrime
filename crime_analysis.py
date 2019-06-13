@@ -17,7 +17,7 @@ import csv
 #-----------------------------------------------------------------------------#
 
 # read in the file 
-url = '/Users/patrickbenitez/Desktop/Georgia Tech/Codebook/Python Projects/US Crime Project/US Crime Analysis/uscrime.txt'
+url = '/Users/patrickbenitez/Desktop/Georgia Tech/Codebook/Git Projects/PY.uscrime/uscrime.txt'
 crime_df = pd.read_csv(url, sep='\t', lineterminator='\r', header=0)
 crime_df.head(10)
 crime_df.dtypes # ensure attributes possess the correct data type
@@ -36,8 +36,18 @@ crime_df['row']
 col_list = crime_df.columns.tolist()
 col_list
 
-plt.boxplot(crime_df['M'])
-plt.title('M: Box and Whisker')
+plt.boxplot(crime_df['row'])
+plt.title('row: Box and Whisker')
 plt.tight_layout()
 plt.show()
-plt.savefig('Box & Whisker: M.png')
+
+for col in col_list:
+    filename = 'Box & Whisker: ' + col + '.png'
+    plt.boxplot(crime_df[col])
+    plt.title(col + ': Box and Whisker')
+    plt.tight_layout()
+    plt.show()
+    plt.savefig('Charts/Box & Whisker Plots/' + filename)
+    
+
+crime_df['row']
