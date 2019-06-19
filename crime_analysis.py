@@ -14,8 +14,7 @@ import numpy as np
 import csv
 from scipy import stats
 import seaborn as sns; sns.set() # use seaborn plotting defaults
-
-
+from sklearn.svm import SVC  
 
 
 #----------------------------------- START -----------------------------------#
@@ -67,6 +66,11 @@ for col in col_list:
 x = crime_df.drop('Crime', axis=1)  
 y = crime_df['Crime']  
 
-# 2.2 Box and Whisker plots of predictor attributes --------------------------#
+# 2.2 Support Vector Machine -------------------------------------------------#
 from sklearn.model_selection import train_test_split  
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.20)  
+
+svclassifier = SVC(kernel='linear')  
+svclassifier.fit(x_train, y_train)
+
+y_pred = svclassifier.predict(x_test)  
