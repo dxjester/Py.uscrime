@@ -11,12 +11,19 @@ import pandas as pd
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+import csv
+from scipy import stats
+import seaborn as sns; sns.set() # use seaborn plotting defaults
+
+
+
+
 #----------------------------------- START -----------------------------------#
 #-------------------- PHASE 1: Import & Clean the Dataset --------------------#
 #-----------------------------------------------------------------------------#
 
 # read in the file 
-url = '/Users/patrickbenitez/Desktop/Georgia Tech/Codebook/Git Projects/PY.uscrime/uscrime.txt'
+url = '/Users/patrickbenitez/Desktop/Georgia Tech/Codebook/Python Projects/US Crime Project/US Crime Analysis/uscrime.txt'
 crime_df = pd.read_csv(url, sep='\t', lineterminator='\r', header=0)
 crime_df.head(10)
 crime_df.dtypes # ensure attributes possess the correct data type
@@ -35,28 +42,31 @@ crime_df['row']
 col_list = crime_df.columns.tolist()
 col_list
 
-# percentile list 
-perc =[.20, .40, .60, .80] 
-  
-# list of dtypes to include 
-include =['object', 'float', 'int'] 
 
-# calling describe method 
-crime_desc = crime_df.describe(percentiles = perc, include = include) 
-crime_desc.to_csv("Column Summary Description")
-crime_desc
+#----------------------------------- START -----------------------------------#
+#-------------------- PHASE 2: Discovery & Analysis --------------------------#
+#-----------------------------------------------------------------------------#
 
-# test a sample boxplot 
-plt.boxplot(crime_df['row'])
-plt.title('row: Box and Whisker')
+# 2.1 Box and Whisker plots of predictor attributes --------------------------#
+# plot one table attribute to test matplotlib functionality
+plt.boxplot(crime_df['M'])
+plt.title('M: Box and Whisker')
 plt.tight_layout()
 plt.show()
+plt.savefig('Box & Whisker: M.png')
 
+# plot box and whisker charts for all variables minus the 'Crime' response attribute
 for col in col_list:
-    filename = 'Box & Whisker: ' + col + '.png'
-    plt.boxplot(crime_df[col])
+    temp = col
+    plt.boxplot(crime_df[temp])
     plt.title(col + ': Box and Whisker')
     plt.tight_layout()
-    plt.show()
-    plt.savefig('Charts/Box & Whisker Plots/' + filename)
-    
+    plt.savefig('Box & Whisker: ' + col +'.png')
+
+
+x = crime_df.drop('Crime', axis=1)  
+y = crime_df['Crime']  
+
+# 2.2 Box and Whisker plots of predictor attributes --------------------------#
+from sklearn.model_selection import train_test_split  
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.20)  
